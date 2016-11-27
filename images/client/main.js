@@ -1,22 +1,24 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+// Any JS in here is automatically run by Meteor
 
-import './main.html';
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
-});
+// Import React Library
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ImageList from './components/image_list';
 
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
+// Create a Component
+const App = () => {
+  return (
+    <div>
+      <h1>Image List</h1>
+      <ImageList />
+    </div>
+  );
+};
 
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
-});
+
+// Render the component to the screen
+// Render inside Meteor startup so the DOM is rendered first
+Meteor.startup( () => {
+  ReactDOM.render(<App />, document.querySelector('.container'));
+})
